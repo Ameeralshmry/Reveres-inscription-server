@@ -1,0 +1,20 @@
+import socket
+def cal(message):
+    trans = ''
+    i = len(message) - 1
+    while i >= 0:
+        trans = trans + message[i]
+        i = i - 1
+    return trans
+serverport=12500
+BUFFER_SIZE=1024
+serversocket=socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
+serversocket.bind(('',serverport))
+print('The server is ready to receive port 12500')
+while 1:
+    message,clientaddress=serversocket.recvfrom(BUFFER_SIZE)
+    message=message.decode('utf-8')
+    response=str(cal(message))
+    serversocket.sendto(response.encode('utf-8'),clientaddress)
+    print(str(message)+'='+str(response))
+serversocket.close()
